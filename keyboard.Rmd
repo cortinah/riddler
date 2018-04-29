@@ -1,0 +1,144 @@
+---
+title: "How Fast Can You Type A Million Letters?"
+subtitle: 'Prepared for FiveThirtyEight Riddler Classic April 27, 2018'
+output:
+  html_document:
+    keep_md: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(nloptr)
+```
+
+### How I Solved It
+I used an iterrative optimization approach to solve this problem.  I found a non-linear constrained optimization library in R `library(nloptr)` that implements the NLopt library. I set up the optimizer to minimize the sum of the times spent on various methods (including the delays specific in the problem), subject to the constraint that one million i characters are typed.  First I tried this without copy-paste cycles, and then progressively added additional copy-paste cycles.  It took seven cycles until the decrease in total time leveled off.  I chose the solution with six copy-paste cycles for a total time of xx seconds.   Please note that this optimizer doesn't do integer optimization, so I hand tweaked (rounding up or down) the solutions to get whole numbers.  I used the sign() function to model the fixed costs of operations such as copy/paste cycles.
+
+# Initial test without copy/paste: 33333.83 seconds
+```{r one}
+# Set up objective function to mininimze
+eval_f <- function(x) ( x[1] + x[2] +0.5*sign(x[2]) )
+# Set up constraint function to 1e6 values
+eval_g0 <- function(x)  return( -(5*x[1] + 30*x[2] - 1e6))
+# Initial guesses
+x0 <- c(100,10000)
+# Algo options (constrained optimization and tolerance)
+opts <- list("algorithm"="NLOPT_LN_COBYLA",   "xtol_rel"=0.01)
+# Run the minimization algo
+res <- nloptr( x0=x0, eval_f=eval_f,eval_g_ineq = eval_g0, opts=opts,lb=c(0,0))
+print(res)
+```
+
+# Copy/paste once: about 367 seconds
+```{r two}
+# Set up objective function to mininimze
+eval_f <- function(x) ( x[1] + x[2]+0.5*sign(x[2]) + x[3]+1.5*sign(x[3]) )
+# Set up constraint function to 1e6 values
+eval_g0 <- function(x)  return( -(5*x[1] + 30*x[2] + (5*x[1] + 30*x[2])*x[3] - 1e6))
+# Initial guesses
+x0 <- c(100,200,200)
+# run the minimization algo
+res <- nloptr( x0=x0, eval_f=eval_f,eval_g_ineq = eval_g0, opts=opts,lb=c(0,0,0))
+print(res)
+```
+
+# Copy/paste twice: 99.5 seconds
+```{r three}
+# Set up 4-part objective function
+eval_f <- function(x) ( x[1] + x[2]+0.5*sign(x[2]) + x[3]+1.5*sign(x[3]) + x[4]+1.5*sign(x[4]) )
+# Set up constraint function to 1e6 values
+eval_g0 <- function(x)  return( -(5*x[1] + 30*x[2] + (5*x[1] + 30*x[2])*x[3] + 
+                                    ((5*x[1] + 30*x[2])*x[3])*x[4] - 1e6))
+# Initial guesses
+x0 <- c(100,100,100,100)
+# Run the minimization algo
+res <- nloptr( x0=x0, eval_f=eval_f,eval_g_ineq = eval_g0, opts=opts,lb=c(0,0,0,0))
+print(res)
+# Round the results and check there are over 1e6 characters and total time
+(32*30) + (32*30)*32 + (32*30)*32*32 + 0.5 +32 +1.5 +32 +1.5 +32
+(0.5 +32) +(1.5 +32) +(1.5 +32)
+```
+
+# Copy/paste four times: 59 seconds
+```{r four}
+# Set up 5-part objective function
+eval_f <- function(x) ( x[1] + x[2]+0.5*sign(x[2]) + x[3]+1.5*sign(x[3]) + x[4]+1.5*sign(x[4]) + x[5]+1.5*sign(x[5]) )
+# Set up constraint function to 1e6 values
+eval_g0 <- function(x)  return( -(5*x[1] + 30*x[2] + (5*x[1] + 30*x[2])*x[3] + 
+                                    ((5*x[1] + 30*x[2])*x[3])*x[4] +
+                                  (((5*x[1] + 30*x[2])*x[3])*x[4])*x[5] - 1e6))
+# Initial guesses
+x0 <- c(0,32,32,32,32)
+# Run the minimization algo
+res <- nloptr( x0=x0, eval_f=eval_f,eval_g_ineq = eval_g0, opts=opts,lb=c(0,0,0,0,0))
+print(res)
+# Round the results and check there are over 1e6 characters and total time
+(15*30) + (15*30)*13 + (15*30)*13*14 + (15*30)*13*14*12
+(0.5 +15) +(1.5 +13) +(1.5 +14) +(1.5 +12)
+```
+
+
+# Copy/paste five times: 47.5 seconds
+```{r five}
+# Set up 6-part objective function
+eval_f <- function(x) ( x[1] + x[2]+0.5*sign(x[2]) + x[3]+1.5*sign(x[3]) + x[4]+1.5*sign(x[4]) +  x[5]+1.5*sign(x[5]) +x[6]+1.5*sign(x[6]))
+# Set up constraint function to 1e6 values
+eval_g0 <- function(x)  return( -(5*x[1] + 30*x[2] + (5*x[1] + 30*x[2])*x[3] + 
+                                    ((5*x[1] + 30*x[2])*x[3])*x[4] +
+                                    (((5*x[1] + 30*x[2])*x[3])*x[4])*x[5] +
+                                  ((((5*x[1] + 30*x[2])*x[3])*x[4])*x[5])*x[6]- 1e6))
+# Initial guesses
+x0 <- c(0,15,15,15,15,15)
+# Run the minimization algo
+res <- nloptr( x0=x0, eval_f=eval_f,eval_g_ineq = eval_g0, opts=opts,lb=c(0,0,0,0,0,0))
+print(res)
+# Round the results and check there are over 1e6 characters and total time
+(14*30) + (14*30)*7 + (14*30)*7*7 + (14*30)*7*7*7 + (14*30)*7*7*7*6
+(0.5 +14) +(1.5 +7) +(1.5 +7) +(1.5 +7) +(1.5+6)
+```
+
+
+
+# Copy/paste six times: 41 seconds
+```{r six}
+# Set up 7-part objective function
+eval_f <- function(x) ( x[1] + x[2]+0.5*sign(x[2]) + x[3]+1.5*sign(x[3]) + x[4]+1.5*sign(x[4]) + x[5]+1.5*sign(x[5]) +x[6]+1.5*sign(x[6]) +x[7]+1.5*sign(x[7]))
+# Set up constraint function to 1e6 values
+eval_g0 <- function(x)  return( -(5*x[1] + 30*x[2] + (5*x[1] + 30*x[2])*x[3] + 
+                                    ((5*x[1] + 30*x[2])*x[3])*x[4] +
+                                    (((5*x[1] + 30*x[2])*x[3])*x[4])*x[5] +
+                                    ((((5*x[1] + 30*x[2])*x[3])*x[4])*x[5])*x[6] +
+                                    (((((5*x[1] + 30*x[2])*x[3])*x[4])*x[5])*x[6])*x[7] - 1e6))
+# Initial guesses
+x0 <- c(0,14,7,7,7,6,6)
+# Run the minimization algo
+res <- nloptr( x0=x0, eval_f=eval_f,eval_g_ineq = eval_g0, opts=opts,lb=c(0,0,0,0,0,0,0))
+print(res)
+# Round the results and check there are over 1e6 characters and total time
+(6*30) + (6*30)*6 + (6*30)*6*6 + (6*30)*6*6*5 + (6*30)*6*6*5*5 + (6*30)*6*6*5*5*5
+(0.5 +6) +(1.5 +6) +(1.5 +6) +(1.5 +5) +(1.5+5) +(1.5+5)
+```
+
+
+# Copy/paste seven times: 41.5 seconds > 41 seconds with six c/p cycles. Choose six cycles.
+```{r seven}
+# Set up 8-part objective functionv
+eval_f <- function(x) ( x[1] + x[2]+0.5*sign(x[2]) + x[3]+1.5*sign(x[3]) + x[4]+1.5*sign(x[4]) + x[5]+1.5*sign(x[5]) +x[6]+1.5*sign(x[6]) +x[7]+1.5*sign(x[7]) +
+                          +x[8]+1.5*sign(x[8]))
+# Set up constraint function to 1e6 values
+eval_g0 <- function(x)  return( -(5*x[1] + 30*x[2] + (5*x[1] + 30*x[2])*x[3] + 
+                                    ((5*x[1] + 30*x[2])*x[3])*x[4] +
+                                    (((5*x[1] + 30*x[2])*x[3])*x[4])*x[5] +
+                                    ((((5*x[1] + 30*x[2])*x[3])*x[4])*x[5])*x[6] +
+                                    (((((5*x[1] + 30*x[2])*x[3])*x[4])*x[5])*x[6])*x[7] +
+                                    ((((((5*x[1] + 30*x[2])*x[3])*x[4])*x[5])*x[6])*x[7])*x[8]
+                                    - 1e6))
+# Initial guesses
+x0 <- c(0,6,7,7,7,6,6,6)
+# Run the minimization algo
+res <- nloptr( x0=x0, eval_f=eval_f,eval_g_ineq = eval_g0, opts=opts,lb=c(0,0,0,0,0,0,0,0))
+print(res)
+# Round the results and check there are over 1e6 characters and total time
+(5*30) + (5*30)*4 + (5*30)*4*5 + (5*30)*4*5*5 + (5*30)*4*5*5*4 + (5*30)*4*5*5*4*4 +(5*30)*4*5*5*4*4*3
+(0.5 +6) +(1.5 +4) +(1.5 +5) +(1.5 +5) +(1.5+4) +(1.5+4) +(1.5+4)
+```
