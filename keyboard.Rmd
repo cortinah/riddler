@@ -20,6 +20,15 @@ The video of me doing this live is here: http://vimeo.com/267043908
 
 I managed to beat the optimizer.
 
+# Chart of Optimizer Results
+```{r chart, echo=FALSE}
+library(ggplot2)
+g<-tibble::tibble(Num=0:6, Seconds=c(33333.83, 367,99.5,59,47.5,41,41.5))
+
+ggplot(g,aes(Num,Seconds)) +geom_line(size=2, color='red') +scale_y_log10() +labs(title='Duration vs. number of copy/paste cycles',y='Seconds (log scale)',x='Number of copy/pastes') +scale_x_continuous(labels=0:6,breaks=0:6) +theme_minimal()
+```
+
+
 # Initial test without copy/paste: 33333.83 seconds
 ```{r one}
 # Set up objective function to mininimze
