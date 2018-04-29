@@ -126,7 +126,7 @@ print(res)
 ```
 
 
-# Copy/paste six times: 41.5 seconds > 41 seconds with six c/p cycles. Choose six cycles.
+# Copy/paste six times: 41.5 seconds > 41.0 seconds with five c/p cycles. Choose five cycles.
 ```{r seven}
 # Set up 8-part objective functionv
 eval_f <- function(x) ( x[1] + x[2]+0.5*sign(x[2]) + x[3]+1.5*sign(x[3]) + x[4]+1.5*sign(x[4]) + x[5]+1.5*sign(x[5]) +x[6]+1.5*sign(x[6]) +x[7]+1.5*sign(x[7]) +
