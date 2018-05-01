@@ -135,7 +135,7 @@ $(document).ready(function () {
 </div>
 <div id="initial-test-without-copypaste-33333.83-seconds" class="section level1">
 <h1>Initial test without copy/paste: 33333.83 seconds</h1>
-<pre class="r"><code># Set up objective function to mininimze
+<pre class="r"><code># Set up 2-part objective function to minimize (single keystrokes and auto-repeat keys)
 eval_f &lt;- function(x) ( x[1] + x[2] +0.5*sign(x[2]) )
 # Set up constraint function to 1e6 values
 eval_g0 &lt;- function(x)  return( -(5*x[1] + 30*x[2] - 1e6))
@@ -167,7 +167,7 @@ print(res)</code></pre>
 </div>
 <div id="copypaste-once-about-367-seconds" class="section level1">
 <h1>Copy/paste once: about 367 seconds</h1>
-<pre class="r"><code># Set up objective function to mininimze
+<pre class="r"><code># Set up 3-part objective function (single keystrokes, auto-repeat keys, and 1x c/p)
 eval_f &lt;- function(x) ( x[1] + x[2]+0.5*sign(x[2]) + x[3]+1.5*sign(x[3]) )
 # Set up constraint function to 1e6 values
 eval_g0 &lt;- function(x)  return( -(5*x[1] + 30*x[2] + (5*x[1] + 30*x[2])*x[3] - 1e6))
@@ -197,7 +197,7 @@ print(res)</code></pre>
 </div>
 <div id="copypaste-twice-99.5-seconds" class="section level1">
 <h1>Copy/paste twice: 99.5 seconds</h1>
-<pre class="r"><code># Set up 4-part objective function
+<pre class="r"><code># Set up 4-part objective function (single keystrokes, auto-repeat keys, and 2x c/p)
 eval_f &lt;- function(x) ( x[1] + x[2]+0.5*sign(x[2]) + x[3]+1.5*sign(x[3]) + x[4]+1.5*sign(x[4]) )
 # Set up constraint function to 1e6 values
 eval_g0 &lt;- function(x)  return( -(5*x[1] + 30*x[2] + (5*x[1] + 30*x[2])*x[3] + 
@@ -233,7 +233,7 @@ print(res)</code></pre>
 </div>
 <div id="copypaste-three-times-59-seconds" class="section level1">
 <h1>Copy/paste three times: 59 seconds</h1>
-<pre class="r"><code># Set up 5-part objective function
+<pre class="r"><code># Set up 5-part objective function (single keystrokes, auto-repeat keys, and 3x c/p)
 eval_f &lt;- function(x) ( x[1] + x[2]+0.5*sign(x[2]) + x[3]+1.5*sign(x[3]) + x[4]+1.5*sign(x[4]) + x[5]+1.5*sign(x[5]) )
 # Set up constraint function to 1e6 values
 eval_g0 &lt;- function(x)  return( -(5*x[1] + 30*x[2] + (5*x[1] + 30*x[2])*x[3] + 
@@ -270,7 +270,7 @@ print(res)</code></pre>
 </div>
 <div id="copypaste-four-times-47.5-seconds" class="section level1">
 <h1>Copy/paste four times: 47.5 seconds</h1>
-<pre class="r"><code># Set up 6-part objective function
+<pre class="r"><code># Set up 6-part objective function (single keystrokes, auto-repeat keys, and 4x c/p)
 eval_f &lt;- function(x) ( x[1] + x[2]+0.5*sign(x[2]) + x[3]+1.5*sign(x[3]) + x[4]+1.5*sign(x[4]) +  x[5]+1.5*sign(x[5]) +x[6]+1.5*sign(x[6]))
 # Set up constraint function to 1e6 values
 eval_g0 &lt;- function(x)  return( -(5*x[1] + 30*x[2] + (5*x[1] + 30*x[2])*x[3] + 
@@ -308,7 +308,7 @@ print(res)</code></pre>
 </div>
 <div id="copypaste-five-times-41-seconds" class="section level1">
 <h1>Copy/paste five times: 41 seconds</h1>
-<pre class="r"><code># Set up 7-part objective function
+<pre class="r"><code># Set up 7-part objective function (single keystrokes, auto-repeat keys, and 5x c/p)
 eval_f &lt;- function(x) ( x[1] + x[2]+0.5*sign(x[2]) + x[3]+1.5*sign(x[3]) + x[4]+1.5*sign(x[4]) + x[5]+1.5*sign(x[5]) +x[6]+1.5*sign(x[6]) +x[7]+1.5*sign(x[7]))
 # Set up constraint function to 1e6 values
 eval_g0 &lt;- function(x)  return( -(5*x[1] + 30*x[2] + (5*x[1] + 30*x[2])*x[3] + 
@@ -346,7 +346,7 @@ print(res)</code></pre>
 </div>
 <div id="copypaste-six-times-41.5-seconds-41.0-seconds-with-five-cp-cycles.-choose-five-cycles." class="section level1">
 <h1>Copy/paste six times: 41.5 seconds &gt; 41.0 seconds with five c/p cycles. Choose five cycles.</h1>
-<pre class="r"><code># Set up 8-part objective functionv
+<pre class="r"><code># Set up 8-part objective function (single keystrokes, auto-repeat keys, and 6x c/p)
 eval_f &lt;- function(x) ( x[1] + x[2]+0.5*sign(x[2]) + x[3]+1.5*sign(x[3]) + x[4]+1.5*sign(x[4]) + x[5]+1.5*sign(x[5]) +x[6]+1.5*sign(x[6]) +x[7]+1.5*sign(x[7]) +
                           +x[8]+1.5*sign(x[8]))
 # Set up constraint function to 1e6 values

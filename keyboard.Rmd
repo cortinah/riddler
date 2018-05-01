@@ -31,7 +31,7 @@ ggplot(g,aes(Num,Seconds)) +geom_line(size=2, color='red') +scale_y_log10() +lab
 
 # Initial test without copy/paste: 33333.83 seconds
 ```{r one}
-# Set up objective function to mininimze
+# Set up 2-part objective function to minimize (single keystrokes and auto-repeat keys)
 eval_f <- function(x) ( x[1] + x[2] +0.5*sign(x[2]) )
 # Set up constraint function to 1e6 values
 eval_g0 <- function(x)  return( -(5*x[1] + 30*x[2] - 1e6))
@@ -46,7 +46,7 @@ print(res)
 
 # Copy/paste once: about 367 seconds
 ```{r two}
-# Set up objective function to mininimze
+# Set up 3-part objective function (single keystrokes, auto-repeat keys, and 1x c/p)
 eval_f <- function(x) ( x[1] + x[2]+0.5*sign(x[2]) + x[3]+1.5*sign(x[3]) )
 # Set up constraint function to 1e6 values
 eval_g0 <- function(x)  return( -(5*x[1] + 30*x[2] + (5*x[1] + 30*x[2])*x[3] - 1e6))
@@ -59,7 +59,7 @@ print(res)
 
 # Copy/paste twice: 99.5 seconds
 ```{r three}
-# Set up 4-part objective function
+# Set up 4-part objective function (single keystrokes, auto-repeat keys, and 2x c/p)
 eval_f <- function(x) ( x[1] + x[2]+0.5*sign(x[2]) + x[3]+1.5*sign(x[3]) + x[4]+1.5*sign(x[4]) )
 # Set up constraint function to 1e6 values
 eval_g0 <- function(x)  return( -(5*x[1] + 30*x[2] + (5*x[1] + 30*x[2])*x[3] + 
@@ -76,7 +76,7 @@ print(res)
 
 # Copy/paste three times: 59 seconds
 ```{r four}
-# Set up 5-part objective function
+# Set up 5-part objective function (single keystrokes, auto-repeat keys, and 3x c/p)
 eval_f <- function(x) ( x[1] + x[2]+0.5*sign(x[2]) + x[3]+1.5*sign(x[3]) + x[4]+1.5*sign(x[4]) + x[5]+1.5*sign(x[5]) )
 # Set up constraint function to 1e6 values
 eval_g0 <- function(x)  return( -(5*x[1] + 30*x[2] + (5*x[1] + 30*x[2])*x[3] + 
@@ -95,7 +95,7 @@ print(res)
 
 # Copy/paste four times: 47.5 seconds
 ```{r five}
-# Set up 6-part objective function
+# Set up 6-part objective function (single keystrokes, auto-repeat keys, and 4x c/p)
 eval_f <- function(x) ( x[1] + x[2]+0.5*sign(x[2]) + x[3]+1.5*sign(x[3]) + x[4]+1.5*sign(x[4]) +  x[5]+1.5*sign(x[5]) +x[6]+1.5*sign(x[6]))
 # Set up constraint function to 1e6 values
 eval_g0 <- function(x)  return( -(5*x[1] + 30*x[2] + (5*x[1] + 30*x[2])*x[3] + 
@@ -116,7 +116,7 @@ print(res)
 
 # Copy/paste five times: 41 seconds
 ```{r six}
-# Set up 7-part objective function
+# Set up 7-part objective function (single keystrokes, auto-repeat keys, and 5x c/p)
 eval_f <- function(x) ( x[1] + x[2]+0.5*sign(x[2]) + x[3]+1.5*sign(x[3]) + x[4]+1.5*sign(x[4]) + x[5]+1.5*sign(x[5]) +x[6]+1.5*sign(x[6]) +x[7]+1.5*sign(x[7]))
 # Set up constraint function to 1e6 values
 eval_g0 <- function(x)  return( -(5*x[1] + 30*x[2] + (5*x[1] + 30*x[2])*x[3] + 
@@ -137,7 +137,7 @@ print(res)
 
 # Copy/paste six times: 41.5 seconds > 41.0 seconds with five c/p cycles. Choose five cycles.
 ```{r seven}
-# Set up 8-part objective functionv
+# Set up 8-part objective function (single keystrokes, auto-repeat keys, and 6x c/p)
 eval_f <- function(x) ( x[1] + x[2]+0.5*sign(x[2]) + x[3]+1.5*sign(x[3]) + x[4]+1.5*sign(x[4]) + x[5]+1.5*sign(x[5]) +x[6]+1.5*sign(x[6]) +x[7]+1.5*sign(x[7]) +
                           +x[8]+1.5*sign(x[8]))
 # Set up constraint function to 1e6 values
