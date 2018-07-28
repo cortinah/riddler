@@ -53,7 +53,7 @@ repeat {
   board[current[1],current[2]] <- T
   i <- i+1
   pos_hist[[i]] <- current
-  if (all(board==T)) {ret<-1; break}
+  if (all(board==T)) {ret<-0; break}
 }
 
 return(list(ret,pos_hist))
