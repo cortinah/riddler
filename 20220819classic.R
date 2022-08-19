@@ -47,6 +47,6 @@ simpill <- function() {
   return(pillbox)
 }
 
-results <- as.numeric(replicate(100000, simpill()))
+results <- as.numeric(replicate(1000000, simpill()))
 sum(!is.na(results))/length(results)
-#20.954%
+#21.0365%
